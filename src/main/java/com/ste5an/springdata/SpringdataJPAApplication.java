@@ -2,32 +2,37 @@ package com.ste5an.springdata;
 
 import com.ste5an.springdata.entity.Person;
 import com.ste5an.springdata.jdbc.PersonJdbcDao;
+import com.ste5an.springdata.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//@SpringBootApplication
-public class SpringdataApplication implements CommandLineRunner {
+import java.util.Arrays;
+import java.util.List;
+
+@SpringBootApplication
+public class SpringdataJPAApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringdataApplication.class, args);
+		SpringApplication.run(SpringdataJPAApplication.class, args);
 	}
 
 	@Autowired
-	PersonJdbcDao personJdbcDao;
+	PersonRepository personRepository;
+
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		Person anna = new Person( "Steve", "Jobs", "San Diego");
+		Person anna = new Person( "Bob", "Jobs", "San Diego");
 		Person david = new Person( "David", "Backhand", "London");
 		Person alex = new Person( "Alex", "Clark", "Boston");
 
-		personJdbcDao.insert(anna);
-		personJdbcDao.insert(david);
-		personJdbcDao.insert(alex);
+		List<Person> people = Arrays.asList(anna, david, alex);
 
-		System.out.println("<<<<<<<<" + personJdbcDao.findAll());
+		personRepository.saveAll(people);
+
+		System.out.println(personRepository.findAll());
 	}
 }

@@ -14,7 +14,6 @@ public class PersonJdbcDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    //Method to get all Persons from our database
     public List<Person> findAll() {
         List<Person> people = jdbcTemplate.query("select * from jpa.person",
                 new BeanPropertyRowMapper<>(Person.class));
@@ -22,7 +21,6 @@ public class PersonJdbcDao {
         return people;
     }
 
-    //Method to insert new Person into database
     public int insert(Person person) {
         return jdbcTemplate.update("insert into jpa.person " +
                         "(id, first_name, last_name, address) " +
@@ -32,6 +30,5 @@ public class PersonJdbcDao {
                         , person.getAddress()
                 });
     }
-
 
 }
